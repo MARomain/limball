@@ -459,20 +459,24 @@ MonoBehaviour:
   passRange: 10
   passCooldown: 0.3
   passBool: 1
-  passCooldownFloat: 0
+  passCooldownTimer: 0
   punchGO: {fileID: 1669525795879878}
   punchCooldown: 1
   punchDuration: 0.3
   punchBool: 1
+  punchDurationBool: 0
   punchMovement: 0
-  punchCooldownFloat: 0
+  punchDurationTimer: 0.3
+  punchCooldownTimer: 1
   speedPunch: 2
   turnSpeedPunch: 0.01
   dashSpeed: 20
   dashCooldown: 3
   dashCooldownTimer: 3
-  dashCooldownFloat: 0
-  dashDurationFloat: 0
+  dashDurationTimer: 0.3
+  dashDurationBool: 0
+  dashCount: 0
+  nbOfDash: 2
   dashSlider: {fileID: 114119317820592922}
   dashImage: {fileID: 114690618546318118}
   dashDuration: 0.3
@@ -481,11 +485,15 @@ MonoBehaviour:
   hasTheSoul: 0
   isStunned: 0
   stunDuration: 1.5
+  stunDurationTimer: 1.5
   stunColor: {r: 1, g: 0, b: 0.59708786, a: 0.9843137}
   teamAngel: 0
   teamDemon: 0
+  animator: {fileID: 0}
   verticalInputValue: 0
   horizontalInputValue: 0
+  rb: {fileID: 0}
+  movement: {x: 0, y: 0, z: 0}
 --- !u!114 &114877234431954310
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -515,7 +523,6 @@ MonoBehaviour:
   dashSpeed: 20
   dashCooldown: 3
   dashCooldownTimer: 3
-  dashCooldownFloat: 0
   dashSlider: {fileID: 114119317820592922}
   dashImage: {fileID: 114690618546318118}
   dashDuration: 0.3
