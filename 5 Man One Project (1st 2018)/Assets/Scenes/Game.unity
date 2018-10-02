@@ -1329,7 +1329,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startDelay: 2
   endDelay: 2
-  endGameDelay: 2
+  endGameDelay: 5
   angelPrefab: {fileID: 1966881316530208, guid: 69f86f317f0f1264085f9bf55b33394b,
     type: 2}
   demonPrefab: {fileID: 1255613963830296, guid: 1322909dee37ab34394a51f4bf499bd6,
@@ -1340,28 +1340,28 @@ MonoBehaviour:
   - spawnTransform: {fileID: 414090847}
     playerNumber: 0
     instance: {fileID: 0}
-    playerColor: {r: 0, g: 0, b: 0, a: 0}
+    playerColor: {r: 0.15294118, g: 0.6, b: 0.9137255, a: 1}
     teamAngel: 0
     teamDemon: 0
     playerController: {fileID: 0}
   - spawnTransform: {fileID: 108709735}
     playerNumber: 0
     instance: {fileID: 0}
-    playerColor: {r: 0, g: 0, b: 0, a: 0}
+    playerColor: {r: 0.5137255, g: 0.8509804, b: 0.13333334, a: 1}
     teamAngel: 0
     teamDemon: 0
     playerController: {fileID: 0}
   - spawnTransform: {fileID: 1528694794}
     playerNumber: 0
     instance: {fileID: 0}
-    playerColor: {r: 0, g: 0, b: 0, a: 0}
+    playerColor: {r: 0.8862745, g: 0.20784314, b: 0.1882353, a: 1}
     teamAngel: 0
     teamDemon: 0
     playerController: {fileID: 0}
   - spawnTransform: {fileID: 1582436547}
     playerNumber: 0
     instance: {fileID: 0}
-    playerColor: {r: 0, g: 0, b: 0, a: 0}
+    playerColor: {r: 0.9882353, g: 0.9098039, b: 0.29411766, a: 1}
     teamAngel: 0
     teamDemon: 0
     playerController: {fileID: 0}
@@ -1369,15 +1369,10 @@ MonoBehaviour:
     spawnPointSoul: {fileID: 1158241267}
     instance: {fileID: 0}
   teamSize: 2
-  playerColors:
-  - {r: 0.15107687, g: 0.6018946, b: 0.9150943, a: 1}
-  - {r: 0.5121174, g: 0.8490566, b: 0.13216448, a: 1}
-  - {r: 0.8867924, g: 0.2097947, b: 0.18823427, a: 1}
-  - {r: 0.9882353, g: 0.9098039, b: 0.29411766, a: 1}
   goalAngel: {fileID: 1489263011}
   goalDemon: {fileID: 1831769624}
   timer: {fileID: 123411396}
-  audio: {fileID: 0}
+  audio: {fileID: 454220544}
   but: {fileID: 8300000, guid: 591d0393cbe0efa4897738c8aa008818, type: 3}
   finDeMatch: {fileID: 8300000, guid: 49f3d45d0c3026846a205a02f13b37ff, type: 3}
   debutDeMatch: {fileID: 8300000, guid: c152be066839ab64a9e9f1f153dc485e, type: 3}

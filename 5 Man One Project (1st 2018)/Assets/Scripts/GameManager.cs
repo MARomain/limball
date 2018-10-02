@@ -7,25 +7,23 @@ using TMPro;
 public class GameManager : MonoBehaviour {
 
 
-    public float startDelay = 1f;
-    public float endDelay = 1f;
-    public float endGameDelay = 2f;
-    public GameObject angelPrefab;
-    public GameObject demonPrefab;
-    public GameObject soulPrefab;
-    public TextMeshPro endRoundText;
-    public PlayerManager[] players;
-    public SoulManager soul;
-    public int teamSize = 2;
+    [Tooltip("délai au début d'un point")] public float startDelay = 2f;
+    [Tooltip("délai à la fin d'un point")] public float endDelay = 2f;
+    [Tooltip("délai à la fin de la game")] public float endGameDelay = 5f;
+    [Tooltip("le prefab des joueurs anges")] public GameObject angelPrefab;
+    [Tooltip("le préfab des joueurs démons")] public GameObject demonPrefab;
+    [Tooltip("le préfab de la soul")] public GameObject soulPrefab;
+    [Tooltip("le text affiché en fin de point")] public TextMeshPro endRoundText;
+    [Tooltip("les players")] public PlayerManager[] players;
+    [Tooltip("la soul")] public SoulManager soul;
+    [Tooltip("le nombre de joueur par équipe")] public int teamSize = 2;
 
-    public Color[] playerColors;    // cette variable est uniquement présente dans le game manager car je set les couleurs via l'inspector. 
-                                    // elle devrait être dans le playerManager et je devrai sauvegarder 4 variables de couleurs j'imagine
 
-    public GoalAngel goalAngel;
-    public GoalDemon goalDemon;     // je pense que ces trois éléments je peux les passer en private puis après en faisant un truc style getcomponent 
-    public Timer timer;             // mais actuellement avec un simple get componenent ça ne marche pas donc je drag depuis l'inspector mes éléments.
+    [Tooltip("référence au but des anges")] public GoalAngel goalAngel;
+    [Tooltip("référence au but des démons")] public GoalDemon goalDemon;
+    [Tooltip("référence au timer")] public Timer timer;
 
-    public AudioSource audio;
+    [Tooltip("référence à l'audiosource")] public AudioSource audio;
     public AudioClip but;
     public AudioClip finDeMatch;
     public AudioClip debutDeMatch;
@@ -35,15 +33,14 @@ public class GameManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        Time.timeScale = 1f;                            //au cas ou à cause du menu pause
-        startWait = new WaitForSeconds(startDelay);     // délay avant le début d'un round
-        endRoundWait = new WaitForSeconds(endDelay);         // délay après un but
+        Time.timeScale = 1f;                            //au cas ou à cause du menu pause le timeScale soit à 1, juste au cas ou
+
+        //Initialisation des délais utile dans la gameloop
+        startWait = new WaitForSeconds(startDelay);
+        endRoundWait = new WaitForSeconds(endDelay);
         endGameWait = new WaitForSeconds(endGameDelay);
 
         audio = GetComponent<AudioSource>();
-        //goalDemon = GetComponent<GoalDemon>();
-        //goalAngel = GetComponent<GoalAngel>();
-        //timer = GetComponent<Timer>();
 
         SpawnPlayers();                                 // spawn de tout les joueurs
         StartCoroutine(GameLoop());                     // Début de la game loop et donc de la partie.
@@ -52,42 +49,41 @@ public class GameManager : MonoBehaviour {
 
     private void SpawnPlayers()
     {
-        for (int i = 0; i < players.Length; i++)                //on va chercher tout les joueurs
+        for (int i = 0; i < players.Length; i++)                //on va chercher toutes les instances des joueurs (c# et non des GameObject)
         {
             //lors de la première boucle, playernumber = i+1 donc 0+1 et ainsi dessuite.
             players[i].playerNumber = i+1;
-            players[i].playerColor = playerColors[i];
             if (players[i].playerNumber <= teamSize)            //on assigne la moitié des joueurs dans une équipe
             {
-                players[i].instance = Instantiate(angelPrefab, players[i].spawnTransform.position, players[i].spawnTransform.rotation) as GameObject;
-                players[i].teamAngel = true; //est-ce que je dois mettre "teamAngel" dans le playerController ou je peux le mettre dans le PlayerManager ?
+                players[i].instance = Instantiate(angelPrefab, players[i].spawnTransform.position, players[i].spawnTransform.rotation) as GameObject; //on instantie le GameObject du player dans la scène
+                players[i].teamAngel = true; // on assigne les premiers joueurs à l'équipe des anges
             }
             else// et le reste dans l'autre équipe
             {
-                players[i].instance = Instantiate(demonPrefab, players[i].spawnTransform.position, players[i].spawnTransform.rotation) as GameObject;
-                players[i].teamDemon = true;
+                players[i].instance = Instantiate(demonPrefab, players[i].spawnTransform.position, players[i].spawnTransform.rotation) as GameObject;//on instantie le GameObject du player dans la scène
+                players[i].teamDemon = true; // on assignes les autres joueurs à l'équipe des démons
             }
 
-            players[i].Setup();         //passage de variable : playerNumber / team
+            players[i].Setup();         //passage de variable : playerNumber / team au script PlayerController
 
         }
     }
 
     private void SpawnSoul()        //Spawn de la soul (balle)
     {
-        soul.instance = Instantiate(soulPrefab, soul.spawnPointSoul.position, soul.spawnPointSoul.rotation) as GameObject;
+        soul.instance = Instantiate(soulPrefab, soul.spawnPointSoul.position, soul.spawnPointSoul.rotation) as GameObject;//on instantie le GameObject de la soul dans la scène
     }
 
 
     private IEnumerator GameLoop()      //La déroulement de la partie prend place dans cette GameLoop
     {
-        yield return StartCoroutine(RoundStarting());
+        yield return StartCoroutine(RoundStarting()); // Partie du jeux avant que le point démarre
 
-        yield return StartCoroutine(RoundPlaying());
+        yield return StartCoroutine(RoundPlaying()); // partie du jeux ou les joueurs jouent le point
 
-        yield return StartCoroutine(RoundEnding());
+        yield return StartCoroutine(RoundEnding()); // partie du jeux après qu'un point soit marquer
 
-        StartCoroutine(GameLoop());
+        StartCoroutine(GameLoop()); // on relance une loop.
     }
 
     private IEnumerator RoundStarting() //initialisation du round
@@ -103,25 +99,41 @@ public class GameManager : MonoBehaviour {
 
     private IEnumerator RoundPlaying()  // le round commence : FIGHT!
     {
-        audio.clip = debutDeMatch;
-        audio.Play();
+        audio.clip = debutDeMatch;  //assignation du clip de début de match à l'audiosource
+        audio.Play();               // on joue ce son
 
-        ResetAnimGameStart();
+        ResetAnimGameStart();       // Reset l'anim après la chutte des joueurs du ciel. Potentiel autre moyen dans l'animator ????
         EnablePlayerControl();          // les joueurs prennent le controle de leurs personnages
         timer.timerOn = true;           // le timer commence
         Debug.Log("round playing");
 
         // tant qu'il n'y a pas de but ou que le timer n'arrive pas à 0
-        while(soul.instance != null)                    // Ca j'ai essayé d'en faire une fonction qui retourne un bool mais j'ai des soucis. C'est la fonction goalmade()
+
+        while(NoGoalIsMade())    //tant qu'aucun but n'est marqué 
         {
-            if (timer.gameTime <= 0.2f)
-            {
-                timer.timerOn = false;
-                Debug.Log("timer end");
-                StartCoroutine(GameEnd());
-            }
+            if(TimerEnded())    //si le timer s'arrete
             yield return null;
         }
+    }
+
+    private bool TimerEnded()
+    {
+        if (timer.gameTime <= 0.2f)
+        {
+            timer.timerOn = false;
+            Debug.Log("timer end");
+            StartCoroutine(GameEnd());
+        }
+        return true;
+    }
+
+    private bool NoGoalIsMade()
+    {
+        if (soul.instance != null)
+        {
+            return true;
+        }
+        else return false;
     }
 
     private IEnumerator RoundEnding()

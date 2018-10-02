@@ -31,7 +31,7 @@ public class PlayerManager  {
     public Transform spawnTransform;                              // les points de spawns
     [HideInInspector] public int playerNumber;                  // le numéro du joueur qui va être incrémenter durant le spawn et ensuite passer au playerController dans la fonction Setup()
     [HideInInspector] public GameObject instance;               // sert au moment de créer l'instance du gameobject quand on le spawn sinon avec PlayerManager[]
-    [HideInInspector] public Color playerColor;
+    public Color playerColor;
     public bool teamAngel;
     public bool teamDemon;
 

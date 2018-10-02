@@ -1,0 +1,57 @@
+Trucs à faire : 
+
+FEEDBACK PLAYTEST : 
+
+Quand quelqu'un se fait tapper actuellement la balle est directement récupérer par le joueur. Ce serait intéressant de tester
+le fait que la balle tombe au sol.  	
+
+
+
+LISTES DES TRUCS A FAIRE :
+
+Anim des démons
+
+Le lighting 
+
+Anim cam pour les entres rounds etc.
+
+quand deux joueurs tombe dans le trou un des joueurs ne rechoppe pas ses controles.
+
+faire que la barre de cooldown se recharge au fil du temps (feedback)
+
+QUAND YA BUT EN OR METTRE LE COUROUTINE DANS UNE FONCTION APPELE DANS LUPDATE (mettre un bool en true)
+
+COMMENCER LA PROG DE L'IA
+
+COMMENTER TOUT LES SCRIPTS SURTOUT LE NEW PLAYERCONTROLLER
+
+NOTES A MOI MEME POUR LES DEUX PLAYERS CONTROLLERS : 
+j'ai ajouté le faites que le joueur ne peut pas faire la passe à son pote si le pote est stun
+complète refonte des CD qui fix le bug du stun qui était pas consistant.
+ajout dans cette version du script le fait que le joueur a 2 charges de dash
+
+
+
+Faire en sorte que quand la soul se déplace sur la tête d'un perso ce soit plus smooth (comme tenté au début du projet)
+
+
+1 = 2
+2 = 4
+3 = 1
+4 = 
+
+Passage de Teddy vis à vie de la référence du gamemanager dans le playercontroller : 
+c'est pas un soucis que le playcontroller demande des infos au game manager. 
+le code devrait cependant être placer dans le GameManager et juste appelé une fonction dans le playerController.
+
+Trucs à demander à teddy : 
+
+- Tout les cooldowns, ce serait une meilleur piste que mes coroutines? https://answers.unity.com/questions/979929/adding-a-cooldown-time-to-a-attack.html
+- Mouvements :  Transform.translate VS rb.MovePosition ?? rb c'est bien	
+- Passe : Allez dans le script de la passe et voir les commentaires (passage de variable / méthode utilisé)
+- Punch : Un peu le même délire que la passe j'utilise une fonction qui check à chaque frame si le joueur est stun. Pas opti ? 
+- GameManager passé en static pour éviter de faire des GameObject.Find()
+- GoalMade() : J'ai une fonction qui check quand un but est marqué et return un Bool mais elle ne fonctionne pas ?? Syntaxe ? Voir
+- PlayerManager : Automatisé le setup des spawns / du nombre de joueurs ?
+- L'IA : les attentes, pistes pour commencer ? Est-ce que la détéction du nombre de joueurs doit être automatiser ou set up dans le menu ?
+ 
