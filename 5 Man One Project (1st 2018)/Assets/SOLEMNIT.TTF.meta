@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 29a3ac676ca0c3d4f9e03dc3c4f71400
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Solemnity
+  fontNames:
+  - Solemnity
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 4a079612b7c0065459ba84bcab848fdd, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
