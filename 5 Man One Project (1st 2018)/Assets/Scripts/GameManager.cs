@@ -116,80 +116,54 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+
+    private IEnumerator RoundEnding()
+    {
+        DisablePlayerControl();         // interdir le controle des joueurs
+        timer.timerOn = false;          // arrêter le timer
+        Debug.Log("round ending");
+
+        endRoundText.text = null;       // réinitialisation du message texte de fin (team 1 wins etc...)
+
+        if (WhoScored() == 1)                           //si le but est marqué dans les cages des anges
+            endRoundText.text = "But des démons";       //update
+        else if (WhoScored() == 2)                      //si le but est marqué dans les cages des démons
+            endRoundText.text = "But des anges";        //update
+
+        audio.clip = but;                               // on charge le son jouer quand un but est marqué
+        audio.Play();                                   // on joue ce son
+
+        yield return endRoundWait;                      // on attends quelques secondes avant de retourner dans la GameLoop()
+    }
+
     private bool TimerEnded()
     {
-        if (timer.gameTime <= 0.2f)
+        if (timer.gameTime <= 0.2f)     // si le timer atteint 0
         {
-            timer.timerOn = false;
+            timer.timerOn = false;      // on éteint le timer
             Debug.Log("timer end");
-            StartCoroutine(GameEnd());
+            StartCoroutine(GameEnd());  // on lance la boucle de fin de partie
         }
         return true;
     }
 
     private bool NoGoalIsMade()
     {
-        if (soul.instance != null)
+        if (soul.instance != null)      // tant que la soul éxiste
         {
-            return true;
+            return true;                //aucun but n'a été marqué
         }
-        else return false;
+        else return false;              
     }
 
-    private IEnumerator RoundEnding()
-    {
-        DisablePlayerControl();         // interdir le controle des joueurs
-        timer.timerOn = false;
-        Debug.Log("round ending");
-
-        endRoundText.text = null;       // réinitialisation du message texte de fin (team 1 wins etc...)
-
-        if (WhoScored() == 1)
-            endRoundText.text = "But des démons";
-        else if (WhoScored() == 2)
-            endRoundText.text = "But des anges";
-
-        audio.clip = but;
-        audio.Play();
-        //Actuellement GameEnd() ne fait rien. elle devrait se trigger uniquement quand il n'y a plus de temps au niveau du timer
-        // Le timer fait sortir de la RoundPlaying loop et l'amène ici. 
-        // On est ici uniquement si un des deux joueurs a mis un goal ou si le timer s'est arrêté
-
-        //si un des joueurs mets un but une action est joué : ici update du texte
-        //on peut faire jouer toute sorte de chose, des plans de cams avec animation / son / particules whatever
-        // de même pour la fin de la partie
-
-        // il faudra donc une fonction pour définir qui a gagné la partie. 
-        // a la fin du temps ou avec un nombre de points max
-        // attention cependant le setup actuel supporte uniquement la fin par timer. une nombre de points max devra être implémenter
-
-
-
-        yield return endRoundWait;
-    }
-
-
-
-    //Check si un but à été 
-    private bool goalmade()
-    {
-        // return true si la soul est active
-        //return soul.instance.activeself;
-        if (soul.instance = null)
-        {
-            return false;
-        }
-        else return true;
-            
-    }
 
     private int WhoScored()                             // Savoir qu'elle équipe à marquer (devrait être un bool ?)
     {
-        if (goalAngel.scoredOnAngelGoal == true)
+        if (goalAngel.scoredOnAngelGoal == true)        //si le but est marqué dans les cages des anges
         {
             return 1;
         }
-        else if (goalDemon.scoredOnDemonGoal == true)
+        else if (goalDemon.scoredOnDemonGoal == true)   //si le but est marqué dans les cages des démons
         {
             return 2;
         }
@@ -199,23 +173,23 @@ public class GameManager : MonoBehaviour {
 
     private IEnumerator GameEnd()
     {
-        if (AngelWon())
+        if (AngelWon())                                     // si les anges ont gagné
         {
             timer.timerOn = false;                          //on stop le timer
-            endRoundText.text = "Les anges ont gagné";
+            endRoundText.text = "Les anges ont gagné";      //update du texte
         }
-        else if (DemonWon())
+        else if (DemonWon())                                // si les démons ont gagné
         {
             timer.timerOn = false;                          //on stop le timer
-            endRoundText.text = "Les démons ont gagné";
+            endRoundText.text = "Les démons ont gagné";     //update du texte
         }
         else
         {
-            endRoundText.text = "BUT EN OR !";
+            endRoundText.text = "BUT EN OR !";              // si aucune des équipes n'a gagné, il y a égalité. on lance donc la boucle but en or
             yield return StartCoroutine(ButEnOr());
         }
-        audio.clip = finDeMatch;
-        audio.Play();
+
+
         StartCoroutine(GameEndDelay());
  
 
@@ -247,14 +221,14 @@ public class GameManager : MonoBehaviour {
             Debug.Log("rentre dans la loop");
             yield return null;
         }
-        StartCoroutine(GameEnd());
         Debug.Log("je sors de ma loop");
 
     }
 
     private IEnumerator GameEndDelay()
     {
-
+        audio.clip = finDeMatch;
+        audio.Play();
         Debug.Log("retour au menu");
         yield return endGameWait;
         SceneManager.LoadScene("Menu");
